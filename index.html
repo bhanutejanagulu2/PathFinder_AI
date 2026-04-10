@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pathfinder AI</title>
+</head>
+<body>
+
+<h1>🚀 Pathfinder AI</h1>
+<p>Enter your skills:</p>
+
+<textarea id="skills" rows="5" cols="40"></textarea><br><br>
+
+<button onclick="generatePath()">Generate Career Path</button>
+
+<pre id="result"></pre>
+
+<script>
+async function generatePath() {
+    let skills = document.getElementById("skills").value;
+
+    document.getElementById("result").innerText = "Loading...";
+
+    let response = await fetch("http://localhost:3000/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ skills: skills })
+    });
+
+    let data = await response.json();
+
+    console.log("Response:", data); // debug
+
+    let output =
+    data.choices?.[0]?.message?.content ||
+    data.choices?.[0]?.text ||
+    JSON.stringify(data, null, 2);
+
+    document.getElementById("result").innerText = output;
+}
+</script>
+
+</body>
+</html>
